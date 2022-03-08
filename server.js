@@ -7,7 +7,6 @@ function requireHTTPS(req, res, next) {
 }
 
 const express = require('express');
-const path = require('path');
 
 const app = express();
 
@@ -16,7 +15,8 @@ app.use(requireHTTPS);
 app.use(express.static(__dirname + '/dist/poli-frontend-vue'));
 
 app.get('/*', function (req, res) {
-    res.sendFile('index.html', { root: 'dist/poli-frontend-vue/' })
+    //res.sendFile(path.join(__dirname, 'poliscrypts-frontend', 'index.html'));
+    res.sendFile('index.vue', { root: 'dist/poli-frontend-vue/ ' })
 })
 
-app.listen(process.env.PORT || 3000);
+app.listen(process.env.PORT || 5000);
