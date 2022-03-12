@@ -25,13 +25,6 @@
       ><v-btn> Contacts </v-btn>
     </nuxt-link>
     <v-spacer />
-    <nuxt-link
-      v-if="!isAuthenticated"
-      id="link-to-login"
-      class="navbar-item"
-      to="/auth"
-      ><v-btn> Connexion </v-btn>
-    </nuxt-link>
     <v-menu v-if="isAuthenticated" offset-y>
       <template v-slot:activator="{ on, attrs }">
         <v-icon medium color="white darken-2" v-on="on" v-bind="attrs">
@@ -45,9 +38,7 @@
           <span class="text-h6">{{ username }}</span>
         </v-card-text>
         <v-card-actions>
-          <nuxt-link class="navbar-item" to="/auth">
-            <v-btn text flat @click="logout"> Logout </v-btn>
-          </nuxt-link>
+          <v-btn color="blue darken-1" text @click="logout()">Logout</v-btn>
         </v-card-actions>
       </v-card>
     </v-menu>
@@ -66,6 +57,13 @@ export default {
       username: "profile/getUsername",
       isAuthenticated: "profile/isAuthenticated",
     }),
+  },
+  method: {
+    logout() {
+      aler('eer')
+      this.$store.dispatch("profile/logout");
+      this.$router.push("auth");
+    },
   },
 };
 </script>
