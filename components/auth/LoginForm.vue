@@ -8,6 +8,9 @@
               <v-toolbar dark color="primary">
                 <v-toolbar-title>Login form</v-toolbar-title>
               </v-toolbar>
+              <v-alert dense dark type="error" :value="alert">
+                {{ error }}
+              </v-alert>
               <v-card-text>
                 <v-form v-model="valid" class="login">
                   <v-text-field
@@ -58,6 +61,8 @@ export default {
   data() {
     return {
       valid: false,
+      error: "",
+      alert: false,
       username: "",
       password: "",
       isLoading: false,
@@ -99,6 +104,10 @@ export default {
         .catch((error) => {
           this.isLoading = false;
           this.error = "Utilisateur ou mot de passe incorrect.";
+          this.alert = true;
+          setTimeout(() => {
+            this.alert = false;
+          }, 3000);
           console.log("Error!!", error.message);
         });
     },
