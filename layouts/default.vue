@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <notifications />
     <Navbar />
     <v-main>
       <Nuxt />
