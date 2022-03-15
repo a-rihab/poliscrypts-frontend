@@ -19,7 +19,6 @@
                     v-model="username"
                     :rules="[
                       requiredRule('username'),
-                      minLengthRule('username', 4),
                     ]"
                     required
                   ></v-text-field>
@@ -29,7 +28,6 @@
                     v-model="password"
                     :rules="[
                       requiredRule('password'),
-                      minLengthRule('password', 7),
                     ]"
                     required
                   ></v-text-field>
@@ -68,11 +66,6 @@ export default {
       isLoading: false,
       requiredRule(propertyType) {
         return (v) => (v && v.length > 0) || `${propertyType} is required !!`;
-      },
-      minLengthRule(propertyType, minLength) {
-        return (v) =>
-          (v && v.length > minLength) ||
-          `${propertyType} must be not less then ${minLength}  !!`;
       },
     };
   },
