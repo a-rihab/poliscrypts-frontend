@@ -33,7 +33,6 @@ http.interceptors.response.use(
         if (error.response.status) {
             switch (error.response.status) {
                 case 400:
-
                     console.log('Bad request')
                     break;
 
@@ -50,14 +49,22 @@ http.interceptors.response.use(
                             username
                         }
 
-                        http.post('/refresh', { requestBody })
-                            .then(({ accessToken, refreshToken, username, roles }) => {
+
+                        http.post('/refresh', requestBody)
+                            .then(({ data: { accessToken, refreshToken, username, roles } }) => {
+
                                 localStorage.setItem('accessToken', accessToken)
                                 localStorage.setItem('refreshToken', refreshToken)
                                 localStorage.setItem('username', username)
                                 localStorage.setItem('roles', roles)
 
+
+
                                 const config = error.config
+
+                                config.headers['Authorization'] = `Bearer ${localStorage.getItem(
+                                    'accessToken'
+                                )}`
 
                                 if (config.params && config.params['token'] !== undefined) {
                                     config.params['token'] = `${localStorage.getItem('accessToken')}`
@@ -80,23 +87,21 @@ http.interceptors.response.use(
                     }
                     break;
                 case 403:
-                    this.$router.replace({
-                        path: "/auth",
-                        query: { redirect: router.currentRoute.fullPath }
-                    });
+                    cleanSession();
                     break;
 
                 case 502:
-                    setTimeout(() => {
-                        router.replace({
-                            path: "/auth",
-                            query: {
-                                redirect: router.currentRoute.fullPath
-                            }
-                        });
-                    }, 1000);
+                    cleanSession();
             }
             return Promise.reject(error.response);
         }
     }
-); 
+);
+
+function cleanSession() {
+    localStorage.removeItem('accessToken')
+    localStorage.removeItem('refreshToken')
+    localStorage.removeItem('username')
+    localStorage.removeItem('roles')
+    window.location.replace('/auth')
+}
