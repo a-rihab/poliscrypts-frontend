@@ -16,7 +16,6 @@
           :items-per-page="params.limit"
           :options.sync="options"
           :server-items-length="totalElements"
-          :loading="loading"
           class="elevation-1"
         >
           <template v-slot:top>
@@ -45,14 +44,17 @@
                   </v-card-actions>
                 </v-card>
               </v-dialog>
-              <template>
+              <template v-if="role == 'ROLE_ADMIN'">
                 <v-btn color="primary" dark class="mb-2" @click="create">
                   New
                 </v-btn>
               </template>
             </v-toolbar>
           </template>
-          <template v-slot:[`item.actions`]="{ item }">
+          <template
+            v-slot:[`item.actions`]="{ item }"
+            v-if="role == 'ROLE_ADMIN'"
+          >
             <v-icon small class="mr-2" @click="$emit('edit', item.id)">
               mdi-pencil
             </v-icon>
@@ -80,7 +82,6 @@ export default {
         searchWord: "",
       },
       searchText: "",
-      loading: true,
       options: {},
       headers: [
         { text: "#", value: "id" },
@@ -88,7 +89,6 @@ export default {
         { text: "Tva", value: "tva" },
         { text: "Actions", value: "actions", sortable: false },
       ],
-      valid: true,
       deletedId: -1,
       showDialog: false,
       showDeleteDialog: false,
@@ -98,6 +98,7 @@ export default {
     ...mapGetters({
       entreprises: "entreprises/getAllEntreprises",
       totalElements: "entreprises/getTotalElements",
+      role: "profile/getRole",
     }),
   },
 
@@ -105,7 +106,6 @@ export default {
     searchText(newVal) {
       setTimeout(() => {
         if (newVal === this.$refs.searchTextRef.value) {
-          console.log(this.searchText);
           this.loadAllEntreprises();
         }
       }, 500);
@@ -120,8 +120,6 @@ export default {
   methods: {
     //load all entreprises and push the data  to store
     loadAllEntreprises() {
-      this.loading = true;
-
       const { sortBy, sortDesc, page, itemsPerPage } = this.options;
 
       this.params.page = page - 1;
@@ -131,9 +129,7 @@ export default {
       this.params.searchWord = this.searchText;
 
       EntrepriseApi.getAllEntreprises(this.$store, this.params)
-        .then((data) => {
-          this.loading = false;
-        })
+        .then((data) => {})
         .catch((error) => {
           console.log(error);
         });
@@ -142,6 +138,10 @@ export default {
       this.loadAllEntreprises();
     },
     create() {
+      this.$nextTick(() => {
+        this.$nuxt.$loading.start();
+        setTimeout(() => this.$nuxt.$loading.finish(), 900);
+      });
       this.$emit("new");
     },
     remove(id) {

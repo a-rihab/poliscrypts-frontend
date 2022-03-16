@@ -38,7 +38,7 @@
           <span class="text-h6">{{ username }}</span>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="blue darken-1" text @click="logout()">Logout</v-btn>
+          <v-btn color="blue darken-1" @click="logout">Logout</v-btn>
         </v-card-actions>
       </v-card>
     </v-menu>
@@ -60,7 +60,7 @@ export default {
   },
   method: {
     logout() {
-      aler('eer')
+      alert("logout");
       this.$store.dispatch("profile/logout");
       this.$router.push("auth");
     },

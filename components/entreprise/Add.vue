@@ -1,10 +1,10 @@
 <template>
   <v-card>
     <v-card-title>
-      <span class="text-h5">{{ formTitle }}</span>
+      <span class="text-h5">{{ formTitle }} Entreprise</span>
     </v-card-title>
     <v-card-text>
-      <v-form ref="form" v-model="valid" class="login" lazy-validation>
+      <v-form ref="form" v-model="valid">
         <v-container>
           <v-row>
             <v-col cols="12">
@@ -20,6 +20,7 @@
             <v-col cols="12">
               <v-text-field
                 label="Tva"
+                name="tva"
                 v-model="editedEntreprise.tva"
                 :rules="[requiredRule('tva'), numberRule('tva')]"
                 required
@@ -30,7 +31,13 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" text @click="reset"> Cancel </v-btn>
-          <v-btn type="submit" color="blue darken-1" @click="save">
+          <v-btn
+            type="submit"
+            color="blue darken-1"
+            @click="save"
+            :disabled="!valid"
+            :loading="loading"
+          >
             Save
           </v-btn>
         </v-card-actions>
@@ -45,7 +52,8 @@ export default {
   props: ["editedEntreprise"],
   data() {
     return {
-      valid: true,
+      loading: false,
+      valid: false,
       requiredRule(propertyType) {
         return (v) => (v && v.length > 0) || `${propertyType} is required !!`;
       },
@@ -64,6 +72,7 @@ export default {
   },
   methods: {
     save(e) {
+      this.loading = true;
       e.preventDefault();
       let method =
         this.editedEntreprise && this.editedEntreprise.id > 0
@@ -88,6 +97,9 @@ export default {
               });
             }
           }
+        })
+        .finally(() => {
+          this.loading = false;
         });
     },
     reset() {

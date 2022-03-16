@@ -5,7 +5,10 @@ export const state = () => ({
 })
 export const getters = {
     getAllEntreprises(state) {
-        return state.entreprises;
+        return state.entreprises.map(({ id, address, tva }) => {
+            let _tva = tva.toString()
+            return { id, address, tva: _tva }
+        })
     },
     getTotalElements(state) {
         return state.totalElements
@@ -38,7 +41,6 @@ export const mutations = {
 
 export const actions = {
     set({ commit }, { content, totalElements }) {
-        console.log("entreprisessss", content)
         commit('set', { content, totalElements })
     },
     add({ commit }, item) {

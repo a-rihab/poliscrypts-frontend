@@ -4,7 +4,7 @@
       <v-text-field
         v-model="searchText"
         ref="searchTextRef"
-        label="Search by Address"
+        label="Search by Firstnama, by LastName or by Address"
       ></v-text-field>
     </v-col>
 
@@ -16,7 +16,6 @@
           :items-per-page="params.limit"
           :options.sync="options"
           :server-items-length="totalElements"
-          :loading="loading"
           class="elevation-1"
         >
           <template v-slot:top>
@@ -45,14 +44,14 @@
                   </v-card-actions>
                 </v-card>
               </v-dialog>
-              <template>
+              <template v-if="role == 'ROLE_ADMIN'">
                 <v-btn color="primary" dark class="mb-2" @click="create">
                   New
                 </v-btn>
               </template>
             </v-toolbar>
           </template>
-          <template v-slot:[`item.actions`]="{ item }">
+          <template v-slot:[`item.actions`]="{ item }" v-if="role == 'ROLE_ADMIN'"> 
             <v-icon small class="mr-2" @click="$emit('edit', item.id)">
               mdi-pencil
             </v-icon>
@@ -69,6 +68,7 @@
 <script>
 import { mapGetters } from "vuex";
 import ContactApi from "~/services/contact-api";
+import EntrepriseApi from "~/services/entreprise-api";
 export default {
   data() {
     return {
@@ -80,7 +80,6 @@ export default {
         searchWord: "",
       },
       searchText: "",
-      loading: true,
       options: {},
       headers: [
         { text: "#", value: "id" },
@@ -100,11 +99,11 @@ export default {
   },
   computed: {
     ...mapGetters({
-      contacts: "contacts/getAllContacts",
+      contacts: "contacts/getAllContactsForTable",
       totalElements: "contacts/getTotalElements",
+      role: "profile/getRole",
     }),
   },
-
   watch: {
     searchText(newVal) {
       setTimeout(() => {
@@ -124,8 +123,6 @@ export default {
   methods: {
     //load all contacts and push the data  to store
     loadAllContacts() {
-      this.loading = true;
-
       const { sortBy, sortDesc, page, itemsPerPage } = this.options;
 
       this.params.page = page - 1;
@@ -136,7 +133,7 @@ export default {
 
       ContactApi.getAllContacts(this.$store, this.params)
         .then((data) => {
-          this.loading = false;
+          console.log("contacts", data);
         })
         .catch((error) => {
           console.log(error);
@@ -169,6 +166,13 @@ export default {
     },
   },
   mounted() {
+    EntrepriseApi.getAllEntreprises(null, this.params)
+      .then((data) => {
+        this.$store.dispatch("contacts/setEntreprises", data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     this.loadAllContacts();
   },
 };

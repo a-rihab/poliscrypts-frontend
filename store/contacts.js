@@ -1,12 +1,30 @@
 
 export const state = () => ({
+    entreprises: [],
     contacts: [],
     totalElements: 0
 })
 export const getters = {
     getAllContacts(state) {
-        //  return state.contacts.map(c => c.entreprises).map(e => e.address).join(",")
-        return state.contacts
+        return state.contacts;
+    },
+    getAllContactsForTable(state) {
+
+        return state.contacts.map(({ id, firstName, lastName, address, type, tva, entreprises }) => {
+
+            let myArrayFiltered = state.entreprises.filter((a) => {
+                return entreprises.some((b) => {
+                    return b === a.id;
+                });
+            });
+
+            let _entreprises = myArrayFiltered.map(entreprise => entreprise.address).join(" - ")
+
+            return { id, firstName, lastName, address, type, tva, entreprises: _entreprises }
+        })
+    },
+    getSearchEntreprises(state) {
+        return state.entreprises
 
     },
     getTotalElements(state) {
@@ -35,12 +53,14 @@ export const mutations = {
     remove(state, id) {
         state.contacts = state.contacts.filter(e => e.id !== id)
         state.totalElements--
-    }
+    },
+    setEntreprises(state, { content, totalElements }) {
+        state.entreprises = content;
+    },
 }
 
 export const actions = {
     set({ commit }, { content, totalElements }) {
-        console.log("contactssss", content)
         commit('set', { content, totalElements })
     },
     add({ commit }, item) {
@@ -51,5 +71,8 @@ export const actions = {
     },
     remove({ commit }, id) {
         commit('remove', id)
-    }
+    },
+    setEntreprises({ commit }, { content, totalElements }) {
+        commit('setEntreprises', { content, totalElements })
+    },
 }

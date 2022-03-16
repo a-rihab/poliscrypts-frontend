@@ -2,15 +2,15 @@
   <div class="w-100" style="max-height: 100%">
     <Table @new="toggle" @edit="edit" />
 
-    <!-- <v-dialog v-model="showDialog" max-width="500px">
-     <Add @toggle="toggle" :editedContact="editedContact" />
-    </v-dialog>-->
+    <v-dialog v-model="showDialog" max-width="700px">
+      <Add @toggle="toggle" :editedContact="editedContact" />
+    </v-dialog>
   </div>
 </template>
 
 <script>
 import Table from "~/components/contact/Table";
-//import Add from "~/components/contact/Add";
+import Add from "~/components/contact/Add";
 import { mapGetters } from "vuex";
 
 export default {
@@ -25,16 +25,24 @@ export default {
     return {
       showDialog: false,
       editedContact: {
+        firstName: "",
+        lastName: "",
+        type: "",
         address: "",
         tva: "",
+        entreprises: [],
       },
       defaultContact: {
+        firstName: "",
+        lastName: "",
+        type: "",
         address: "",
         tva: "",
+        entreprises: [],
       },
     };
   },
-  components: { Table },
+  components: { Table, Add },
   methods: {
     edit(id) {
       this.editedContact = Object.assign(
@@ -49,6 +57,12 @@ export default {
       });
       this.showDialog = !this.showDialog;
     },
+  },
+  mounted() {
+    this.$nextTick(() => {
+      this.$nuxt.$loading.start();
+      setTimeout(() => this.$nuxt.$loading.finish(), 900);
+    });
   },
 };
 </script>
