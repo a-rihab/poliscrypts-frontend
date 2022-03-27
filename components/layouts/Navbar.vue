@@ -4,8 +4,8 @@
       <v-btn> PoliScrypts </v-btn>
     </nuxt-link>
     <v-spacer />
-    <nuxt-link id="link-to-entreprises" class="navbar-item" to="/entreprise">
-      <v-btn to="/entreprise" text> Entreprises </v-btn>
+    <nuxt-link id="link-to-enterprises" class="navbar-item" to="/enterprise">
+      <v-btn to="/enterprise" text> Entreprises </v-btn>
     </nuxt-link>
     <nuxt-link id="link-to-contacts" class="navbar-item" to="/contact"
       ><v-btn> Contacts </v-btn>

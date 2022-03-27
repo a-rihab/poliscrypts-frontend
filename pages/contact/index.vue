@@ -30,7 +30,7 @@ export default {
         type: "",
         address: "",
         tva: "",
-        entreprises: [],
+        enterprises: [],
       },
       defaultContact: {
         firstName: "",
@@ -38,7 +38,7 @@ export default {
         type: "",
         address: "",
         tva: "",
-        entreprises: [],
+        enterprises: [],
       },
     };
   },

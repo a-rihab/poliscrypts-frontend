@@ -12,7 +12,7 @@
       <template>
         <v-data-table
           :headers="headers"
-          :items="entreprises"
+          :items="enterprises"
           :items-per-page="params.limit"
           :options.sync="options"
           :server-items-length="totalElements"
@@ -26,7 +26,7 @@
               <v-dialog v-model="showDeleteDialog" max-width="500px">
                 <v-card>
                   <v-card-title class="text-h5"
-                    >Are you sure you want to delete this entreprise with id
+                    >Are you sure you want to delete this enterprise with id
                     {{ deletedId }} ?</v-card-title
                   >
                   <v-card-actions>
@@ -70,7 +70,7 @@
 </template>
 <script>
 import { mapGetters } from "vuex";
-import EntrepriseApi from "~/services/entreprise-api";
+import EntrepriseApi from "~/services/enterprise-api";
 export default {
   data() {
     return {
@@ -96,8 +96,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      entreprises: "entreprises/getAllEntreprises",
-      totalElements: "entreprises/getTotalElements",
+      enterprises: "enterprises/getAllEntreprises",
+      totalElements: "enterprises/getTotalElements",
       role: "profile/getRole",
     }),
   },
@@ -118,7 +118,7 @@ export default {
     },
   },
   methods: {
-    //load all entreprises and push the data  to store
+    //load all enterprises and push the data  to store
     loadAllEntreprises() {
       const { sortBy, sortDesc, page, itemsPerPage } = this.options;
 
@@ -151,7 +151,7 @@ export default {
     deleteConfirm() {
       EntrepriseApi.deleteEntrepriseById(this.deletedId)
         .then(() => {
-          this.$store.dispatch("entreprises/remove", this.deletedId);
+          this.$store.dispatch("enterprises/remove", this.deletedId);
           this.reloadData();
           this.closeDeleteConfirm();
         })

@@ -1,6 +1,6 @@
 
 export const state = () => ({
-    entreprises: [],
+    enterprises: [],
     contacts: [],
     totalElements: 0
 })
@@ -10,21 +10,21 @@ export const getters = {
     },
     getAllContactsForTable(state) {
 
-        return state.contacts.map(({ id, firstName, lastName, address, type, tva, entreprises }) => {
+        return state.contacts.map(({ id, firstName, lastName, address, type, tva, enterprises }) => {
 
-            let myArrayFiltered = state.entreprises.filter((a) => {
-                return entreprises.some((b) => {
+            let myArrayFiltered = state.enterprises.filter((a) => {
+                return enterprises.some((b) => {
                     return b === a.id;
                 });
             });
 
-            let _entreprises = myArrayFiltered.map(entreprise => entreprise.address).join(" - ")
+            let _enterprises = myArrayFiltered.map(enterprise => enterprise.address).join(" - ")
 
-            return { id, firstName, lastName, address, type, tva, entreprises: _entreprises }
+            return { id, firstName, lastName, address, type, tva, enterprises: _enterprises }
         })
     },
     getSearchEntreprises(state) {
-        return state.entreprises
+        return state.enterprises
 
     },
     getTotalElements(state) {
@@ -55,7 +55,7 @@ export const mutations = {
         state.totalElements--
     },
     setEntreprises(state, { content, totalElements }) {
-        state.entreprises = content;
+        state.enterprises = content;
     },
 }
 

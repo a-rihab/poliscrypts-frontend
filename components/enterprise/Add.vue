@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import EntrepriseApi from "~/services/entreprise-api";
+import EntrepriseApi from "~/services/enterprise-api";
 export default {
   props: ["editedEntreprise"],
   data() {
@@ -81,7 +81,7 @@ export default {
       EntrepriseApi.createOrUpdateEntreprise(this.editedEntreprise)
         .then((data) => {
           this.reset();
-          this.$store.dispatch(`entreprises/${method}`, data);
+          this.$store.dispatch(`enterprises/${method}`, data);
         })
         .catch((error) => {
           let errors = error.data;

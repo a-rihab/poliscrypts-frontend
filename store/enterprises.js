@@ -1,11 +1,11 @@
 
 export const state = () => ({
-    entreprises: [],
+    enterprises: [],
     totalElements: 0
 })
 export const getters = {
     getAllEntreprises(state) {
-        return state.entreprises.map(({ id, address, tva }) => {
+        return state.enterprises.map(({ id, address, tva }) => {
             let _tva = tva.toString()
             return { id, address, tva: _tva }
         })
@@ -14,27 +14,27 @@ export const getters = {
         return state.totalElements
     },
     getEntrepriseById(state, id) {
-        return state.entreprises.find((e) => e.id === id) || null
+        return state.enterprises.find((e) => e.id === id) || null
     },
 
 }
 export const mutations = {
     set(state, { content, totalElements }) {
 
-        state.entreprises = content;
+        state.enterprises = content;
         state.totalElements = totalElements
     },
     add(state, item) {
-        state.entreprises.unshift(item);
+        state.enterprises.unshift(item);
         state.totalElements++;
     },
     update(state, item) {
-        const index = state.entreprises.findIndex(e => e.id === item.id)
+        const index = state.enterprises.findIndex(e => e.id === item.id)
         if (index !== -1)
-            state.entreprises.splice(index, 1, item)
+            state.enterprises.splice(index, 1, item)
     },
     remove(state, id) {
-        state.entreprises = state.entreprises.filter(e => e.id !== id)
+        state.enterprises = state.enterprises.filter(e => e.id !== id)
         state.totalElements--
     }
 }

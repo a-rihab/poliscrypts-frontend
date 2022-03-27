@@ -2,13 +2,13 @@ import { http } from './interceptor';
 
 class EntrepriseApi {
 
-    // get All entreprise
+    // get All enterprise
     getAllEntreprises(store, params) {
         return new Promise(function (resolve, reject) {
-            http.get('/entreprise/search', { params })
+            http.get('/enterprise/search', { params })
                 .then(({ data }) => {
                     resolve(data)
-                    store.dispatch("entreprises/set", data);
+                    store.dispatch("enterprises/set", data);
                 })
                 .catch(error => {
                     reject(error)
@@ -16,10 +16,10 @@ class EntrepriseApi {
         })
     }
 
-    // delete entreprise by id
+    // delete enterprise by id
     getEntrepriseById(id) {
         return new Promise(function (resolve, reject) {
-            http.get(`/entreprise/${id}`)
+            http.get(`/enterprise/${id}`)
                 .then(({ data }) => {
                     resolve(data)
                 })
@@ -29,10 +29,10 @@ class EntrepriseApi {
         })
     }
 
-    createOrUpdateEntreprise(entreprise) {
+    createOrUpdateEntreprise(enterprise) {
         return new Promise(function (resolve, reject) {
-            if (entreprise && entreprise.id > 0) {
-                http.put(`/entreprise/${entreprise.id}`, entreprise)
+            if (enterprise && enterprise.id > 0) {
+                http.put(`/enterprise/${enterprise.id}`, enterprise)
                     .then(({ data }) => {
                         resolve(data)
                     })
@@ -40,7 +40,7 @@ class EntrepriseApi {
                         reject(error)
                     })
             } else {
-                http.post(`/entreprise`, entreprise)
+                http.post(`/enterprise`, enterprise)
                     .then(({ data }) => {
                         resolve(data)
                     })
@@ -52,10 +52,10 @@ class EntrepriseApi {
         })
     }
 
-    // delete entreprise by id
+    // delete enterprise by id
     deleteEntrepriseById(id) {
         return new Promise(function (resolve, reject) {
-            http.delete(`/entreprise/${id}`)
+            http.delete(`/enterprise/${id}`)
                 .then(({ data }) => {
                     resolve(data)
                 })

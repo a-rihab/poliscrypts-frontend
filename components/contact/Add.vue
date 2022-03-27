@@ -60,8 +60,8 @@
           <v-row>
             <v-col>
               <v-autocomplete
-                v-model="editedContact.entreprises"
-                :items="entreprises"
+                v-model="editedContact.enterprises"
+                :items="enterprises"
                 :loading="isLoading"
                 item-text="address"
                 item-value="id"
@@ -128,7 +128,7 @@ export default {
     },
 
     ...mapGetters({
-      entreprises: "entreprises/getAllEntreprises",
+      enterprises: "enterprises/getAllEntreprises",
     }),
   },
   methods: {

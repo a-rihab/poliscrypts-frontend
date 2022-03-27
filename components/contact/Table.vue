@@ -68,7 +68,7 @@
 <script>
 import { mapGetters } from "vuex";
 import ContactApi from "~/services/contact-api";
-import EntrepriseApi from "~/services/entreprise-api";
+import EntrepriseApi from "~/services/enterprise-api";
 export default {
   data() {
     return {
@@ -88,7 +88,7 @@ export default {
         { text: "Type", value: "type" },
         { text: "Address", value: "address" },
         { text: "Tva", value: "tva" },
-        { text: "Entreprises", value: "entreprises" },
+        { text: "Entreprises", value: "enterprises" },
         { text: "Actions", value: "actions", sortable: false },
       ],
       valid: true,

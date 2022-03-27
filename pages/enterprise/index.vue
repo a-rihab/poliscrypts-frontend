@@ -9,16 +9,16 @@
 </template>
 
 <script>
-import Table from "~/components/entreprise/Table";
-import Add from "~/components/entreprise/Add";
+import Table from "~/components/enterprise/Table";
+import Add from "~/components/enterprise/Add";
 import { mapGetters } from "vuex";
 
 export default {
   layout: "default",
   computed: {
     ...mapGetters({
-      entreprises: "entreprises/getAllEntreprises",
-      totalElements: "entreprises/getTotalElements",
+      enterprises: "enterprises/getAllEntreprises",
+      totalElements: "enterprises/getTotalElements",
     }),
   },
   data() {
@@ -39,7 +39,7 @@ export default {
     edit(id) {
       this.editedEntreprise = Object.assign(
         {},
-        this.entreprises.find((e) => e.id === id)
+        this.enterprises.find((e) => e.id === id)
       );
       this.showDialog = true;
     },
