@@ -4,7 +4,7 @@
       <v-text-field
         v-model="searchText"
         ref="searchTextRef"
-        label="Search by Address"
+        label="Search"
       ></v-text-field>
     </v-col>
 
